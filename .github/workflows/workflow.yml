@@ -1,0 +1,58 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - "master"
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  DOCKER_REPOSITORY: ${{ secrets.DOCKER_USERNAME }}/test-push-example
+  VM_USER: ${{ secrets.VM_USER }}
+  VM_ADDRESS: ${{ secrets.VM_ADDRESS }}
+  VM_PASSWORD: ${{ secrets.VM_PASSWORD }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Login to docker hub
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Build docker image
+        run: docker build -t $DOCKER_REPOSITORY . --no-cache
+      - name: Push image to Docker Hub
+        run: docker push $DOCKER_REPOSITORY
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull code
+        run: |
+          ssh -o StrictHostKeyChecking=no "$TEST_VM_USER"@"$TEST_VM_ADDRESS" -p "$TEST_VM_PASSWORD" "cd /home/nestjs-boilerplate && git fetch \
+          && git reset --hard origin/master \
+          && git pull origin master \
+          && yarn install \
+          && yarn build"
+      # - name: SSH Deploy
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USER }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     script: |
+      #       cd /home 
+      #       mkdir test
+      #       docker pull $DOCKER_REPOSITORY
+      #       docker rm -f nestjs-api-container
+      #       docker run -d -p 3000:3000 --name nestjs-api-container $DOCKER_REPOSITORY
+      - name: Pull image from docker hub
+        run: docker pull $DOCKER_REPOSITORY
+      - name: Delete old container
+        run: docker rm -f nestjs-api-container
+      - name: Run docker container
+        run: docker run -d -p 3000:3000 --name nestjs-api-container $DOCKER_REPOSITORY
+

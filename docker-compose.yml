@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  nestjs-api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - mysql-db
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - ht_core
+
+  mysql-db:
+    image: mysql:8.0.33
+    volumes:
+      - ../mysql-data:/data
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ht@123456
+      MYSQL_DATABASE: ht_core
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: ht@123456
+    networks:
+      - ht_core
+
+networks:
+  ht_core:
