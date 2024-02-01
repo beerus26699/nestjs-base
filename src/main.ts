@@ -7,6 +7,7 @@ import {
 } from '@nestjs/swagger';
 import { SWAGGER_ACCESS_TOKEN_KEY } from './shared/constants/app.constant';
 import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -14,7 +15,13 @@ async function bootstrap() {
     const configService = app.get(ConfigService);
     const port = configService.get<number>('app.port');
 
-    app.setGlobalPrefix('api').enableCors();
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true,
+        }),
+    )
+        .setGlobalPrefix('api')
+        .enableCors();
 
     const config = new DocumentBuilder()
         .setTitle('HT Core')
