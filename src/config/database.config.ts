@@ -5,9 +5,8 @@ import { DatabaseConfig } from 'src/database/database.interface';
 const config: DatabaseConfig = configuration().database;
 
 export default registerAs('database', () => ({
-    host: config.host,
-    port: config.port,
-    username: config.username,
-    password: config.password,
-    database: config.database,
+    uri: config.uri,
+    user: config.user,
+    pass: config.pass,
+    dbName: config.dbName,
 }));

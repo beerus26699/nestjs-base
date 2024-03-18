@@ -1,8 +1,18 @@
 import { Module } from '@nestjs/common';
-import { databaseProviders } from './database.provider';
+import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
+import { ConfigService } from '@nestjs/config';
+import { DatabaseConfig } from './database.interface';
 
 @Module({
-    providers: [...databaseProviders],
-    exports: [...databaseProviders],
+    imports: [
+        MongooseModule.forRootAsync({
+            useFactory: (
+                configService: ConfigService,
+            ): MongooseModuleFactoryOptions => {
+                return { ...configService.get<DatabaseConfig>('database') };
+            },
+            inject: [ConfigService],
+        }),
+    ],
 })
 export class DatabaseModule {}

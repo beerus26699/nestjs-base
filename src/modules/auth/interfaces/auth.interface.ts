@@ -4,6 +4,6 @@ export interface AuthInfo {
 }
 
 export interface JwtAccessTokenClaims {
-    userId: number;
+    userId: string;
     role: string;
 }

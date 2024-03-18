@@ -12,6 +12,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthRequired, User } from 'src/shared/decorators/auth.decorator';
+import { Public } from '../auth/set-meta-data';
 
 @Controller('users')
 @ApiTags('Users')
@@ -29,10 +30,17 @@ export class UsersController {
         return true;
     }
 
+    @Post('multi/:number')
+    @Public()
+    createMultiUser(@Param('number') number: number) {
+      return this.usersService.createMulti(+number);
+    }
+
     @Get()
+    @Public()
     @ApiOperation({ summary: 'Get all users' })
     findAll() {
-        return this.usersService.findAll();
+        return this.usersService.findAll({ page: 1, pageSize: 3 });
     }
 
     // @Post()

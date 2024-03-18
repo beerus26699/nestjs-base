@@ -3,21 +3,17 @@ import { IsString, IsDefined, IsInt } from 'class-validator';
 export class DatabaseConfig {
     @IsString()
     @IsDefined()
-    host: string;
+    uri: string;
 
     @IsInt()
     @IsDefined()
-    port: number;
+    user: string;
 
     @IsString()
     @IsDefined()
-    username: string;
+    pass: string;
 
     @IsString()
     @IsDefined()
-    password: string;
-
-    @IsString()
-    @IsDefined()
-    database: string;
+    dbName: string;
 }

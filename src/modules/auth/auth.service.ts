@@ -36,7 +36,7 @@ export class AuthService {
         }
 
         const payload: JwtAccessTokenClaims = {
-            userId: user.id,
+            userId: user.pDoneId,
             role: 'admin',
         };
 
