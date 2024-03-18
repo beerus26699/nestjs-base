@@ -1,5 +1,7 @@
 # HT CORE
 
+Database engine: Mongo
+
 ## Prerequisites
 1. Docker
 
