@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from '../../schemas/user.schema';
+import { User, UserDocument } from '../../schemas/user.schema';
 import { FilterQuery, Model } from 'mongoose';
 
 @Injectable()
@@ -40,13 +40,15 @@ export class UsersService {
         const filter: FilterQuery<User> = {
             isPDone: false,
         };
-        const users = await this.userModel
-            .find(filter)
-            .sort({ createdAt: 1 })
-            .skip(skip)
-            .limit(limit)
-            .exec();
-        const count = await this.userModel.countDocuments(filter);
+        const [count, users] = await Promise.all([
+            this.userModel.countDocuments(filter),
+            this.userModel
+                .find(filter)
+                .sort({ createdAt: 1 })
+                .skip(skip)
+                .limit(limit)
+                .exec(),
+        ]);
         return {
             rows: users,
             count,
