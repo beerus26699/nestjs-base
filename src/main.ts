@@ -8,12 +8,18 @@ import {
 import { SWAGGER_ACCESS_TOKEN_KEY } from './shared/constants/app.constant';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
+import { LoggerFactoryService } from './shared/logger/logger-factory.service';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, {});
+
+    const logger = app
+        .get(LoggerFactoryService)
+        .createLogger(`${AppModule.name}`);
 
     const configService = app.get(ConfigService);
     const port = configService.get<number>('app.port');
+    app.useLogger(logger);
 
     app.useGlobalPipes(
         new ValidationPipe({

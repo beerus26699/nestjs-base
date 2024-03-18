@@ -15,7 +15,7 @@ import { AuthRequired, User } from 'src/shared/decorators/auth.decorator';
 
 @Controller('users')
 @ApiTags('Users')
-@AuthRequired()
+// @AuthRequired()
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 

@@ -8,9 +8,11 @@ import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { DatabaseModule } from './database/database.module';
 import { AllExceptionsFilter } from './middleware/exception/exception.filter';
+import { LoggerFactoryModule } from './shared/logger/logger-factory.module';
 
 @Module({
     imports: [
+        LoggerFactoryModule,
         ConfigModule.forRoot({
             isGlobal: true,
             load: [configuration],
