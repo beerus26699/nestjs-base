@@ -12,6 +12,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthRequired, User } from 'src/shared/decorators/auth.decorator';
+import { Serialize } from 'src/middleware/interceptors/serialize.interceptor';
+import { UserRes } from './responses/user.response';
 
 @Controller('users')
 @ApiTags('Users')
@@ -33,6 +35,13 @@ export class UsersController {
     @ApiOperation({ summary: 'Get all users' })
     findAll() {
         return this.usersService.findAll();
+    }
+
+    @Get(':id')
+    @Serialize(UserRes)
+    @ApiOperation({ summary: 'Get one user' })
+    findOne(@Param('id') id: string) {
+        return this.usersService.findOneById(+id);
     }
 
     // @Post()

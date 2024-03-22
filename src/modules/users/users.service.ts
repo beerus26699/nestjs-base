@@ -21,6 +21,10 @@ export class UsersService {
         return await this.model.findOne({ where: { username } });
     }
 
+    async findOneById(id: number): Promise<UserModel> {
+        return await this.model.findOne({ where: { id } });
+    }
+
     update(id: number, updateUserDto: UpdateUserDto) {
         return `This action updates a #${id} user`;
     }
