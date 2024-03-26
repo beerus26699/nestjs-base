@@ -1,22 +1,29 @@
-const yaml = require('js-yaml');
-const { join } = require('path');
-const { readFileSync } = require('fs');
-
-const YAML_CONFIG_FILE = join(process.cwd(), 'env.yml');
-const configuration = yaml.load(readFileSync(YAML_CONFIG_FILE, 'utf8'));
-const databaseInfo = configuration.database;
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = {
-  development: {
-    ...databaseInfo,
-    dialect: 'mysql',
-  },
-  uat: {
-    ...databaseInfo,
-    dialect: 'mysql',
-  },
-  production: {
-    ...databaseInfo,
-    dialect: 'mysql',
-  },
+    development: {
+        host: process.env.DATABASE_HOST,
+        port: process.env.DATABASE_PORT,
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME,
+        dialect: 'mysql',
+    },
+    uat: {
+        host: process.env.DATABASE_HOST,
+        port: process.env.DATABASE_PORT,
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME,
+        dialect: 'mysql',
+    },
+    production: {
+        host: process.env.DATABASE_HOST,
+        port: process.env.DATABASE_PORT,
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME,
+        dialect: 'mysql',
+    },
 };

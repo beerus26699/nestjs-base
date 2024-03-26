@@ -1,21 +1,16 @@
 import { Sequelize } from 'sequelize-typescript';
 import { Provider } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { DatabaseConfig } from './database.interface';
 import { UserModel } from 'src/entities/user.entity';
-import configuration from 'src/config/configuration';
-import databaseConfig from 'src/config/database.config';
+import { DATABASE_CONFIG } from 'src/config/dotenv';
 
 const models = [UserModel];
 
-const config = databaseConfig();
 const sequelize = new Sequelize({
-    ...config,
-    dialect: 'mysql',
+    ...DATABASE_CONFIG,
     dialectOptions: {
         supportBigNumbers: true,
     },
-    logging: false,
+    dialect: 'mysql'
 });
 
 const databaseProviders: Provider[] = [
