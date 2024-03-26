@@ -1,4 +1,4 @@
-import { IsString, IsDefined, IsInt } from 'class-validator';
+import { IsString, IsDefined, IsInt, IsBoolean, IsOptional } from 'class-validator';
 
 export class DatabaseConfig {
     @IsString()
@@ -20,4 +20,8 @@ export class DatabaseConfig {
     @IsString()
     @IsDefined()
     database: string;
+
+    @IsBoolean()
+    @IsOptional()
+    logging: boolean;
 }
