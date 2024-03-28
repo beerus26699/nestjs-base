@@ -28,5 +28,15 @@ services:
     networks:
       - ht_core
 
+  # postgres-db:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_PASSWORD=postgres
+  #   container_name: postgres
+  #   volumes:
+  #     - ./pgdata:/var/lib/postgresql/data
+  #   ports:
+  #     - '5432:5432'
+
 networks:
   ht_core:
