@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './modules/users/users.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './middleware/interceptors/transform.interceptor';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
@@ -9,6 +9,8 @@ import { DatabaseModule } from './database/database.module';
 import { AllExceptionsFilter } from './middleware/exception/exception.filter';
 import databaseConfig from './config/database.config';
 import appConfig from './config/app.config';
+import { RedisModule } from './libs/redis/redis.module';
+import { RedisConfig } from './libs/redis/redis.type';
 
 @Module({
     imports: [
@@ -19,6 +21,12 @@ import appConfig from './config/app.config';
         DatabaseModule,
         UsersModule,
         AuthModule,
+        RedisModule.forRootAsync({
+            useFactory: (configService: ConfigService) => {
+                return configService.get<RedisConfig>('cache.redis');
+            },
+            inject: [ConfigService],
+        }),
     ],
     controllers: [],
     providers: [
