@@ -8,11 +8,11 @@ services:
     depends_on:
       - mysql-db
     volumes:
-      - .:/app
+      - ./.env:/app/.env
     ports:
       - "3000:3000"
     networks:
-      - ht_core
+      - hai_core
 
   mysql-db:
     image: mysql:8.0.33
@@ -21,12 +21,12 @@ services:
     ports:
       - "3307:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: ht@123456
-      MYSQL_DATABASE: ht_core
+      MYSQL_ROOT_PASSWORD: hai@123456
+      MYSQL_DATABASE: hai_core
       MYSQL_USER: admin
-      MYSQL_PASSWORD: ht@123456
+      MYSQL_PASSWORD: hai@123456
     networks:
-      - ht_core
+      - hai_core
 
   # postgres-db:
   #   image: postgres
@@ -39,4 +39,4 @@ services:
   #     - '5432:5432'
 
 networks:
-  ht_core:
+  hai_core:

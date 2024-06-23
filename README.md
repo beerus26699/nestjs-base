@@ -1,4 +1,4 @@
-# HT CORE
+# HAI CORE
 
 ## Prerequisites
 1. Docker

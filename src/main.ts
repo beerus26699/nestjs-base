@@ -24,8 +24,8 @@ async function bootstrap() {
         .enableCors();
 
     const config = new DocumentBuilder()
-        .setTitle('HT Core')
-        .setDescription('HT Core API')
+        .setTitle('Hai Core')
+        .setDescription('Hai Core API')
         .setVersion('1.0')
         .addBearerAuth(
             {
