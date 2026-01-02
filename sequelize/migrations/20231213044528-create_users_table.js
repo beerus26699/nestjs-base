@@ -4,20 +4,50 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(
-      'users',
+      'it_users',
       {
         id: {
           type: Sequelize.DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
         },
-        username: {
+        email: {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-        password: {
+        password_hash: {
           type: Sequelize.DataTypes.STRING,
+          allowNull: true,
+        },
+        is_activated: {
+          type: Sequelize.DataTypes.BOOLEAN,
           allowNull: false,
+          defaultValue: false,
+        },
+        activation_token: {
+          type: Sequelize.DataTypes.STRING,
+          allowNull: true,
+        },
+        activation_token_expires: {
+          type: Sequelize.DataTypes.DATE,
+          allowNull: true,
+        },
+        google_id: {
+          type: Sequelize.DataTypes.STRING,
+          allowNull: true,
+        },
+        avatar: {
+          type: Sequelize.DataTypes.STRING,
+          allowNull: true,
+        },
+        full_name: {
+          type: Sequelize.DataTypes.STRING,
+          allowNull: true,
+        },
+        role: {
+          type: Sequelize.DataTypes.ENUM('admin', 'user'),
+          allowNull: false,
+          defaultValue: 'user',
         },
         created_at: {
           type: Sequelize.DataTypes.DATE,
