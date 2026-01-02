@@ -10,6 +10,8 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import { AllExceptionsFilter } from '@app/core/middleware/exception/exception.filter';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
     imports: [
@@ -19,6 +21,8 @@ import { AllExceptionsFilter } from '@app/core/middleware/exception/exception.fi
         }),
         DatabaseModule,
         RedisModule,
+        UsersModule,
+        AuthModule,
     ],
     providers: [
         {
